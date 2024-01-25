@@ -13,8 +13,8 @@ const BuildCard = () => {
     setWords(newWord);
   };
 
-  const handleBuildCard = () => {
-    const card = buildCardByWord(words);
+  const handleBuildCard = async () => {
+    const card = await buildCardByWord(words);
 
     setResult(card);
   };
