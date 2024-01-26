@@ -2,7 +2,7 @@ import { Box, useColorModeValue } from "@chakra-ui/react";
 
 import Content from "./components/Content";
 
-const SideBar = (props: { routes: RoutesType[]; [x: string]: any }) => {
+const SideBar = (props: { routes: RoutesType[] }) => {
   const { routes } = props;
 
   const variantChange = "0.2s linear";

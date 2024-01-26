@@ -1,17 +1,16 @@
 import { Portal, Box } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/SideBar";
 import routes from "../routes";
 
 const MainLayout = () => {
+  const location = useLocation();
   const getActiveRoute = (routes: RoutesType[]): string => {
     const activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(routes[i].path) !== -1
-      ) {
+      if (location.pathname.indexOf(routes[i].path) !== -1) {
         return routes[i].name;
       }
     }
@@ -20,7 +19,7 @@ const MainLayout = () => {
 
   return (
     <Box>
-      <Sidebar routes={routes} display="none" />
+      <Sidebar routes={routes} />
       <Box
         float="right"
         minHeight="100vh"
