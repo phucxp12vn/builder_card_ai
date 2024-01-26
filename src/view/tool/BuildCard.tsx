@@ -1,41 +1,47 @@
-import { useState } from "react";
-import { Input, Stack, Button, Textarea } from "@chakra-ui/react";
+import { Grid, GridItem, Flex } from "@chakra-ui/react";
 
-import { buildCardByWord } from "./utils";
+import BuildForm from "./components/BuildForm";
+import BuildResult from "./components/BuildResult";
 
 const BuildCard = () => {
-  const [words, setWords] = useState("");
-  const [result, setResult] = useState("");
+  // const [words, setWords] = useState("");
+  // const [result, setResult] = useState("");
 
-  const handleInputNewWord = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: newWord } = event.target;
+  // const handleInputNewWord = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value: newWord } = event.target;
 
-    setWords(newWord);
-  };
+  //   setWords(newWord);
+  // };
 
-  const handleBuildCard = async () => {
-    const card = await buildCardByWord(words);
+  // const handleBuildCard = async () => {
+  //   const card = await buildCardByWord(words);
 
-    setResult(card);
-  };
+  //   setResult(card);
+  // };
 
   return (
-    <Stack background="white" width={500} spacing={4} direction="column" align="center">
-      <Input
-        placeholder="Please input the word"
-        value={words}
-        onChange={handleInputNewWord}
-      />
-      <Button colorScheme="teal" size="sm" onClick={handleBuildCard}>
-        Build
-      </Button>
-      <Textarea
-        placeholder="The result will display here"
-        isDisabled
-        value={result}
-        minHeight={400}
-      />
-    </Stack>
+    <Grid
+      mb="20px"
+      gridTemplateColumns={{ xl: "repeat(3, 1fr)" }}
+      gap={{ base: "20px", xl: "20px" }}
+      display={{ base: "block", xl: "grid" }}
+    >
+      <Flex
+        flexDirection="column"
+        gridArea={{ xl: "1 / 1 / 2 / 3", "2xl": "1 / 1 / 2 / 2" }}
+      >
+        <BuildForm />
+      </Flex>
+      <GridItem colSpan={2}>
+        <Flex
+          flexDirection="column"
+          gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}
+          p="20px"
+        >
+          <BuildResult />
+        </Flex>
+      </GridItem>
+    </Grid>
   );
 };
 
