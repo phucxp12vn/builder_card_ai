@@ -1,8 +1,10 @@
 import { Stack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import ResultCard from './ResultCard'
+import ResultCard from "./ResultCard";
+import { useGetCards } from "hook/useCard";
 
 const BuildResult = () => {
+  const { data: cards } = useGetCards();
   const textColor = useColorModeValue("secondaryGray.900", "white");
 
   return (
@@ -22,10 +24,8 @@ const BuildResult = () => {
         align="center"
         mb={{ base: "20px", xl: "0px" }}
       >
-        <ResultCard />
-        <ResultCard />
-        <ResultCard />
-        <ResultCard />
+        {cards &&
+          cards.map((card) => <ResultCard key={card.word} card={card} />)}
       </Stack>
     </>
   );

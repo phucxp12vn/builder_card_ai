@@ -4,21 +4,6 @@ import BuildForm from "./components/BuildForm";
 import BuildResult from "./components/BuildResult";
 
 const BuildCard = () => {
-  // const [words, setWords] = useState("");
-  // const [result, setResult] = useState("");
-
-  // const handleInputNewWord = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value: newWord } = event.target;
-
-  //   setWords(newWord);
-  // };
-
-  // const handleBuildCard = async () => {
-  //   const card = await buildCardByWord(words);
-
-  //   setResult(card);
-  // };
-
   return (
     <Grid
       mb="20px"

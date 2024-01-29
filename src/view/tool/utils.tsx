@@ -1,15 +1,5 @@
 import axios from "axios";
-
-interface Card {
-  word: string;
-  wordMissingLetter: string;
-  picture: string;
-  ipa: string;
-  type: string;
-  define: string;
-  example: string;
-  audio: string;
-}
+import { Card } from "api/cardApi";
 
 export const buildCardByWord = async (word: string) => {
   const card = await inferenceCardByAI(word);

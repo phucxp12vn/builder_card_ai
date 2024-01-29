@@ -4,14 +4,31 @@ import {
   Card,
   Divider,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
   Input,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { RiMagicFill } from "react-icons/ri";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
+import { useBuildCards } from "hook/useCard";
 
 const BuildForm = () => {
+  const buildCards = useBuildCards();
+  const formik = useFormik({
+    initialValues: {
+      words: "",
+    },
+    validationSchema: Yup.object({
+      words: Yup.string().required("Please input at least one word."),
+    }),
+    onSubmit: (values) => buildCards.mutateAsync(values.words.split(";")),
+  });
+
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "gray.400";
 
@@ -32,28 +49,44 @@ const BuildForm = () => {
       </Text>
       <Divider color={textColorSecondary} my="8px" />
       <Box>
-        <Text color={textColorPrimary} fontWeight="500" fontSize="md" mb="4px">
-          Words
-        </Text>
-        <Input
-          placeholder="Please input the word"
-          value={""}
-          //   onChange={handleInputNewWord}
-        />
-        <Divider color={textColorSecondary} my="12px" />
-        <Flex w="100%" justifyContent={"end"}>
-          <Button
-            leftIcon={<RiMagicFill />}
-            mb="5px"
-            minW="120px"
-            mt={{ base: "20px", "2xl": "auto" }}
-            variant="solid"
-            fontWeight="500"
-            colorScheme="blue"
+        <form onSubmit={formik.handleSubmit}>
+          <FormControl
+            isInvalid={Boolean(formik.errors.words) && formik.touched.words}
           >
-            Build
-          </Button>
-        </Flex>
+            <FormLabel
+              color={textColorPrimary}
+              fontWeight="500"
+              fontSize="md"
+              mb="4px"
+            >
+              Words
+            </FormLabel>
+            <Input
+              id="words"
+              name={"words"}
+              value={formik.values.words}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Please input the words"
+            />
+            <FormErrorMessage>{formik.errors.words}</FormErrorMessage>
+          </FormControl>
+          <Divider color={textColorSecondary} my="12px" />
+          <Flex w="100%" justifyContent={"end"}>
+            <Button
+              leftIcon={<RiMagicFill />}
+              mb="5px"
+              minW="120px"
+              mt={{ base: "20px", "2xl": "auto" }}
+              variant="solid"
+              fontWeight="500"
+              colorScheme="blue"
+              type="submit"
+            >
+              Build
+            </Button>
+          </Flex>
+        </form>
       </Box>
     </Card>
   );

@@ -3,46 +3,55 @@ import {
   CardBody,
   Flex,
   Text,
+  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-const ResultCard = () => {
+import { Card as CardType } from "src/api/cardApi";
+
+const ResultCard = (props: { card: CardType }) => {
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "gray.400";
+  const { card } = props;
 
   return (
-    <Card mb="20px" w={"100%"} h={400}>
+    <Card mb="20px" w={"100%"} minH={300}>
       <CardBody>
-        <Flex align="center" w="100%" justify="space-between" mb="30px">
-          <Text
-            color={textColorPrimary}
-            fontWeight="bold"
-            fontSize="2xl"
-            mb="4px"
-          >
+        <Flex align="flex-start" direction={{ base: "column", md: "row" }}>
+          <Flex align="center" w="100%" justify="space-between" mb="30px">
             <Text
               color={textColorPrimary}
               fontWeight="bold"
               fontSize="2xl"
-              mt="10px"
               mb="4px"
             >
-              General Information
+              <Text
+                color={textColorPrimary}
+                fontWeight="bold"
+                fontSize="2xl"
+                mb="4px"
+              >
+                Word: {card.word}
+              </Text>
+              <Text fontWeight="500" color={textColorSecondary} fontSize="sm">
+                IPA: /{card.ipa}/
+              </Text>
+              <Text fontWeight="500" color={textColorSecondary} fontSize="sm">
+                Type: {card.type}
+              </Text>
+              <Text color={textColorPrimary} fontSize="md" me="26px" mb="40px">
+                Define: {card.define}
+              </Text>
+              <Text color={textColorPrimary} fontSize="md">
+                Exampe: {card.example}
+              </Text>
             </Text>
-            <Text color={textColorSecondary} fontSize="md" me="26px" mb="40px">
-              As we live, our hearts turn colder. Cause pain is what we go
-              through as we become older. We get insulted by others, lose trust
-              for those others. We get back stabbed by friends. It becomes
-              harder for us to give others a hand. We get our heart broken by
-              people we love, even that we give them all...
-            </Text>
-            <Text fontWeight="500" color={textColorSecondary} fontSize="sm">
-              title
-            </Text>
-            <Text color={textColorPrimary} fontWeight="500" fontSize="md">
-              value
-            </Text>
-          </Text>
+          </Flex>
+          <Image
+            src={card.picture}
+            borderRadius="8px"
+            ml="20px"
+          />
         </Flex>
       </CardBody>
     </Card>
