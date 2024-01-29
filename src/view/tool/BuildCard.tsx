@@ -1,9 +1,14 @@
-import { Grid, GridItem, Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, useColorModeValue } from "@chakra-ui/react";
 
 import BuildForm from "./components/BuildForm";
 import BuildResult from "./components/BuildResult";
 
 const BuildCard = () => {
+  const backgroundColor = useColorModeValue(
+    "blackAlpha.50",
+    "secondaryGray.900"
+  );
+
   return (
     <Grid
       mb="20px"
@@ -22,6 +27,8 @@ const BuildCard = () => {
           flexDirection="column"
           gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}
           p="20px"
+          bg={backgroundColor}
+          rounded="md"
         >
           <BuildResult />
         </Flex>

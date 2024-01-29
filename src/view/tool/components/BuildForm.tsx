@@ -18,7 +18,7 @@ import * as Yup from "yup";
 import { useBuildCards } from "hook/useCard";
 
 const BuildForm = () => {
-  const buildCards = useBuildCards();
+  const {mutateAsync, isLoading } = useBuildCards();
   const formik = useFormik({
     initialValues: {
       words: "",
@@ -26,7 +26,7 @@ const BuildForm = () => {
     validationSchema: Yup.object({
       words: Yup.string().required("Please input at least one word."),
     }),
-    onSubmit: (values) => buildCards.mutateAsync(values.words.split(";")),
+    onSubmit: (values) => mutateAsync(values.words.split(";")),
   });
 
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
@@ -81,6 +81,8 @@ const BuildForm = () => {
               variant="solid"
               fontWeight="500"
               colorScheme="blue"
+              isLoading={isLoading}
+              loadingText='Building'
               type="submit"
             >
               Build

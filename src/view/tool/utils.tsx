@@ -1,58 +1,14 @@
-import axios from "axios";
 import { Card } from "api/cardApi";
 
-export const buildCardByWord = async (word: string) => {
-  const card = await inferenceCardByAI(word);
+export const convertToPlainText = (cards: Card[]) => {
+  let result =
+    "#separator:Pipe\n\
+  #columns:Word|Word_Missing_Letter|Pic|IPA|Type|Define|Example|Audio_Word\n";
 
-  const cardStringTemplate = `${card.word}|${card.wordMissingLetter}|${card.picture}|${card.ipa}|${card.type}|${card.define}|${card.example}|${card.audio}|`;
+  cards.forEach((card) => {
+    result += `${card.word}|${card.wordMissingLetter}|<img src="${card.picture}"></img>|${card.ipa}|${card.type}|${card.define}|${card.example}|${card.audio}|`;
+    result += "\n";
+  });
 
-  return cardStringTemplate;
-};
-
-const inferenceCardByAI = async (word: string): Promise<Card> => {
-  const wordInfo = await postWord(word);
-
-  return {
-    word: word,
-    wordMissingLetter: replaceVowels(word),
-    picture:
-      '<img src="https://colwords.com/assets/word_images/1684/thumb/thumb_1614917984_hike.JPG"></img>',
-    ipa: wordInfo?.ipa || "",
-    type: "Adjective",
-    define: wordInfo?.define || "",
-    example: wordInfo?.example || "",
-    audio: `[sound:${word}.mp3]`,
-  };
-};
-
-const replaceVowels = (word: string, replacment = "_") => {
-  const regex = /[aeiou]/gi;
-
-  return word.replace(regex, replacment);
-};
-
-// Function to handle button click and make a POST request
-const postWord = async (word: string) => {
-  try {
-    // Make a POST request using Axios
-    const response = await axios.get(
-      `http://localhost:5173/api/build?word=${word}`
-    );
-
-    const {
-      ipa_word: ipa,
-      explaination_word: define,
-      example_word: example,
-    } = response.data.result;
-
-    return {
-      define,
-      ipa,
-      example,
-    };
-  } catch (error) {
-    // Set error state in case of an error
-  } finally {
-    // Set loading to false after the request is complete (whether successful or not)
-  }
+  return result;
 };
