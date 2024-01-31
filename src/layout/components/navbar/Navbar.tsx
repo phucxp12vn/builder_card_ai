@@ -15,7 +15,6 @@ const Navbar = (props: {
   brandText: string;
   logoText: string;
   fixed: boolean;
-  onOpen: (...args: any[]) => any;
 }) => {
   const { secondary, brandText } = props;
 

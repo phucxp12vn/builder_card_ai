@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useCallback, useLayoutEffect } from "react";
 
 type DebounceFunction = (...args: any[]) => void;

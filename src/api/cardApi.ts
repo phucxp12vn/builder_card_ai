@@ -6,7 +6,7 @@ export interface Card {
   wordMissingLetter: string;
   picture: string[];
   ipa: string;
-  type: string;
+  type: string;   
   define: string;
   example: string;
   audio: string;

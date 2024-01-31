@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { Box, Flex, Text, IconButton, HStack } from "@chakra-ui/react";
+import { Box, Flex, IconButton, HStack } from "@chakra-ui/react";
 import {
   MdOutlineKeyboardArrowUp,
   MdOutlineKeyboardArrowDown,
@@ -8,27 +8,21 @@ import {
 import useBoundingRect from "hook/useBoundingRect";
 
 const Slider = (props: {
-  gap: number;
   activeItem: number;
   positions: number[];
   children: JSX.Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setActiveItem: (...arg: any) => void;
-  initSliderWidth: (width: number) => void;
+  initItemHeight: (height: number) => void;
 }) => {
-  const {
-    gap,
-    activeItem,
-    positions,
-    children,
-    setActiveItem,
-    initSliderWidth,
-  } = props;
+  const { activeItem, positions, children, setActiveItem, initItemHeight } =
+    props;
   const [ref, dimensions] = useBoundingRect();
-  const width = dimensions?.width ?? 0;
+  const height = dimensions?.height ?? 0;
 
   useLayoutEffect(
-    () => initSliderWidth(Math.round(width)),
-    [width, initSliderWidth]
+    () => initItemHeight(Math.round(height)),
+    [height, initItemHeight]
   );
 
   const handleDecrementClick = () => {
@@ -36,15 +30,15 @@ const Slider = (props: {
   };
 
   const handleIncrementClick = () => {
-    (activeItem < positions.length - 1) &&
+    activeItem < positions.length - 1 &&
       setActiveItem((prev: number) => prev + 1);
   };
 
   return (
     <>
-      <HStack>
+      <HStack height={"100%"}>
         <Flex
-          h={"300px"}
+          h={"100%"}
           direction="column"
           mx="auto"
           justifyContent="space-around"
@@ -52,7 +46,6 @@ const Slider = (props: {
           <IconButton
             onClick={handleDecrementClick}
             mt={"4px"}
-            mr={`${gap / 3}px`}
             colorScheme="blue"
             aria-label="Search database"
             variant="ghost"
@@ -61,7 +54,6 @@ const Slider = (props: {
           <IconButton
             onClick={handleIncrementClick}
             mt={"4px"}
-            ml={`${gap / 3}px`}
             colorScheme="blue"
             aria-label="Search database"
             variant="ghost"
@@ -70,15 +62,13 @@ const Slider = (props: {
         </Flex>
         <Box
           ref={ref}
-          w={{ base: "100%", md: `calc(100% + ${gap}px)` }}
-          ml={{ base: 0, md: `-${gap / 2}px` }}
-          px={`${gap / 2}px`}
+          w="100%"
+          height="100%"
           position="relative"
           overflow="hidden"
           _before={{
             bgGradient: "linear(to-r, base.d400, transparent)",
             position: "absolute",
-            w: `${gap / 2}px`,
             content: "''",
             zIndex: 1,
             h: "100%",
@@ -88,7 +78,6 @@ const Slider = (props: {
           _after={{
             bgGradient: "linear(to-l, base.d400, transparent)",
             position: "absolute",
-            w: `${gap / 2}px`,
             content: "''",
             zIndex: 1,
             h: "100%",
@@ -99,9 +88,6 @@ const Slider = (props: {
           {children}
         </Box>
       </HStack>
-      <Text textAlign="center" fontWeight="500" color={"gray.400"} fontSize="20px">
-        Selected this picture
-      </Text>
     </>
   );
 };

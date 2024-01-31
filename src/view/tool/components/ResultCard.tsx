@@ -49,18 +49,30 @@ const ResultCard = (props: { card: CardType }) => {
               </Text>
             </Box>
           </Flex>
-          <Box minW={300} width={300}>
-            <Carousel gap={0}>
-              {card.picture.map((url, index) => (
-                <Image
-                  key={`${card.word}-${index}`}
-                  src={url}
-                  borderRadius="8px"
-                  objectFit="cover"
-                  boxSize="300px"
-                />
-              ))}
-            </Carousel>
+          <Box>
+            <Box minHeight={300} height={300} minW={340} width={340}>
+              <Carousel gap={0}>
+                {card.picture.map((url, index) => (
+                  <Image
+                    key={`${card.word}-${index}`}
+                    src={url}
+                    borderRadius="8px"
+                    objectFit="cover"
+                    width={"100%"}
+                    height={"100%"}
+                  />
+                ))}
+              </Carousel>
+            </Box>
+            <Text
+              mt="5px"
+              textAlign="center"
+              fontWeight="500"
+              color={"gray.400"}
+              fontSize="20px"
+            >
+              Selected this picture
+            </Text>
           </Box>
         </Flex>
       </CardBody>

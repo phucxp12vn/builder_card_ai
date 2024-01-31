@@ -79,6 +79,7 @@ export const globalStyles = {
 		}
 	},
 	styles: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		global: (props: any) => ({
 			body: {
 				overflowX: 'hidden',

@@ -37,7 +37,6 @@ const MainLayout = () => {
         <Portal>
           <Box>
             <Navbar
-              onOpen={() => {}}
               logoText={"Horizon UI Dashboard PRO"}
               brandText={getActiveRoute(routes)}
               secondary={true}
