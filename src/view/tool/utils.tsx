@@ -6,7 +6,7 @@ export const convertToPlainText = (cards: Card[]) => {
   #columns:Word|Word_Missing_Letter|Pic|IPA|Type|Define|Example|Audio_Word\n";
 
   cards.forEach((card) => {
-    result += `${card.word}|${card.wordMissingLetter}|<img src="${card.picture}"></img>|${card.ipa}|${card.type}|${card.define}|${card.example}|${card.audio}|`;
+    result += `${card.word}|${card.wordMissingLetter}|<img src="${card.picture?.[0] ?? ""}"></img>|${card.ipa}|${card.type}|${card.define}|${card.example}|${card.audio}|`;
     result += "\n";
   });
 

@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardBody,
   Flex,
@@ -7,7 +8,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { Card as CardType } from "src/api/cardApi";
+import { Card as CardType } from "api/cardApi";
+import Carousel from "components/carousel/Carousel";
 
 const ResultCard = (props: { card: CardType }) => {
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
@@ -19,7 +21,7 @@ const ResultCard = (props: { card: CardType }) => {
       <CardBody>
         <Flex align="flex-start" direction={{ base: "column", md: "row" }}>
           <Flex align="center" w="100%" justify="space-between" mb="30px">
-            <Text
+            <Box
               color={textColorPrimary}
               fontWeight="bold"
               fontSize="2xl"
@@ -45,13 +47,21 @@ const ResultCard = (props: { card: CardType }) => {
               <Text color={textColorPrimary} fontSize="md">
                 Exampe: {card.example}
               </Text>
-            </Text>
+            </Box>
           </Flex>
-          <Image
-            src={card.picture}
-            borderRadius="8px"
-            ml="20px"
-          />
+          <Box minW={300} width={300}>
+            <Carousel gap={0}>
+              {card.picture.map((url, index) => (
+                <Image
+                  key={`${card.word}-${index}`}
+                  src={url}
+                  borderRadius="8px"
+                  objectFit="cover"
+                  boxSize="300px"
+                />
+              ))}
+            </Carousel>
+          </Box>
         </Flex>
       </CardBody>
     </Card>

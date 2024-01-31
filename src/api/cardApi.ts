@@ -4,7 +4,7 @@ import api from "./api";
 export interface Card {
   word: string;
   wordMissingLetter: string;
-  picture: string;
+  picture: string[];
   ipa: string;
   type: string;
   define: string;
@@ -14,7 +14,7 @@ export interface Card {
 
 export const buildCards = async (words: string[]) => {
   const { data } = await api.post<Card[]>(`http://localhost:5173/api/build`, {
-    word: words.join(";"),
+    words: words.join(";"),
   });
 
   return data;
