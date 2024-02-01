@@ -19,7 +19,7 @@ export const useBuildCards = () => {
         const serializedCards = cards.map((card) => ({
           ...card,
           selectedPicture: card.pictures?.[0] ?? "",
-        }));
+        })).filter(card => card.word.length !== 0);
         if (!prevCards) {
           return serializedCards;
         } else {

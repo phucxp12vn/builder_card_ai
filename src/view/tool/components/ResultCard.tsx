@@ -16,7 +16,7 @@ const ResultCard = (props: { card: CardType }) => {
   const { card } = props;
 
   return (
-    <Card mb="20px" w={"100%"} minH={300}>
+    <Card mb="20px" w={"100%"}>
       <CardBody>
         <Flex align="flex-start" direction={{ base: "column", md: "row" }}>
           <Flex align="center" w="100%" justify="space-between" mb="30px">
