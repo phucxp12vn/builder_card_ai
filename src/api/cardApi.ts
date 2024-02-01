@@ -4,7 +4,8 @@ import api from "./api";
 export interface Card {
   word: string;
   wordMissingLetter: string;
-  picture: string[];
+  pictures: string[];
+  selectedPicture: string;
   ipa: string;
   type: string;   
   define: string;

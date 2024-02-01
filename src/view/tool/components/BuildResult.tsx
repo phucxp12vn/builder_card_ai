@@ -1,18 +1,13 @@
-import { useMemo } from "react";
 import { Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import ResultCard from "./ResultCard";
-import DownloadButton from "components/buttons/DownloadButton";
 import { useGetCards } from "hook/useCard";
-import { convertToPlainText } from "../utils";
+import DownloadCard from "./DownloadCard";
 
 const BuildResult = () => {
   const { data: cards } = useGetCards();
   const textColor = useColorModeValue("secondaryGray.900", "white");
-  const cardsPlainText = useMemo(() => {
-    return cards ? convertToPlainText(cards) : "";
-  }, [cards]);
-
+  
   return (
     <>
       <Flex
@@ -32,7 +27,7 @@ const BuildResult = () => {
         >
           Result
         </Text>
-        <DownloadButton content={cardsPlainText} fileName="desk_cards.txt" />
+        <DownloadCard cards={cards} />
       </Flex>
       <Stack
         spacing={4}

@@ -4,12 +4,11 @@ import {
   CardBody,
   Flex,
   Text,
-  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 
 import { Card as CardType } from "api/cardApi";
-import Carousel from "components/carousel/Carousel";
+import ImagesCard from "./ImagesCard";
 
 const ResultCard = (props: { card: CardType }) => {
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
@@ -49,31 +48,7 @@ const ResultCard = (props: { card: CardType }) => {
               </Text>
             </Box>
           </Flex>
-          <Box>
-            <Box minHeight={300} height={300} minW={340} width={340}>
-              <Carousel gap={0}>
-                {card.picture.map((url, index) => (
-                  <Image
-                    key={`${card.word}-${index}`}
-                    src={url}
-                    borderRadius="8px"
-                    objectFit="cover"
-                    width={"100%"}
-                    height={"100%"}
-                  />
-                ))}
-              </Carousel>
-            </Box>
-            <Text
-              mt="5px"
-              textAlign="center"
-              fontWeight="500"
-              color={"gray.400"}
-              fontSize="20px"
-            >
-              Selected this picture
-            </Text>
-          </Box>
+          <ImagesCard word={card.word} pictures={card.pictures} />
         </Flex>
       </CardBody>
     </Card>
