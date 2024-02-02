@@ -1,16 +1,17 @@
-import { Icon } from "@chakra-ui/react";
-import { MdHome } from "react-icons/md";
-import { RouteObject } from "react-router-dom";
+import { Icon } from '@chakra-ui/react';
+import { MdHome } from 'react-icons/md';
+import { RouteObject } from 'react-router-dom';
 
-import MainLayout from "./layout/MainLayout.tsx";
-import BuildCard from "./view/tool/BuildCard.tsx";
-import { RouteClass } from "src/constant";
+import { RouteClass } from '@/constant/index';
+
+import MainLayout from './layout/MainLayout';
+import BuildCard from './view/tool/BuildCard';
 
 const routes: RoutesType[] = [
   {
-    name: "Main Dashboard",
+    name: 'Main Dashboard',
     classification: RouteClass.PRIVATE,
-    path: "/",
+    path: '/',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: BuildCard,
   },

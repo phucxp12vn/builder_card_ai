@@ -1,11 +1,11 @@
-import { extendTheme, HTMLChakraProps, ThemingProps } from "@chakra-ui/react";
-import { breakpoints } from "./foundations/breakpoints";
-import { globalStyles } from "./styles";
+import { extendTheme, HTMLChakraProps, ThemingProps } from '@chakra-ui/react';
 
-// eslint-disable-next-line react-refresh/only-export-components
+import { breakpoints } from './foundations/breakpoints';
+import { globalStyles } from './styles';
+
 export default extendTheme(
   { breakpoints }, // Breakpoints
   globalStyles
 );
 
-export interface CustomCardProps extends HTMLChakraProps<"div">, ThemingProps {}
+export interface CustomCardProps extends HTMLChakraProps<'div'>, ThemingProps {}

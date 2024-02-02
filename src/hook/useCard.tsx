@@ -1,7 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { buildCards, Card } from "api/cardApi";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-const key = "cards";
+import { buildCards, Card } from '@/api/cardApi';
+
+const key = 'cards';
 
 export const useGetCards = () => {
   return useQuery<Card[]>({
@@ -16,10 +17,12 @@ export const useBuildCards = () => {
     mutationFn: buildCards,
     onSuccess: (cards: Card[]) => {
       queryClient.setQueryData([key], (prevCards: Card[] | undefined) => {
-        const serializedCards = cards.map((card) => ({
-          ...card,
-          selectedPicture: card.pictures?.[0] ?? "",
-        })).filter(card => card.word.length !== 0);
+        const serializedCards = cards
+          .map((card) => ({
+            ...card,
+            selectedPicture: card.pictures?.[0] ?? '',
+          }))
+          .filter((card) => card.word.length !== 0);
         if (!prevCards) {
           return serializedCards;
         } else {

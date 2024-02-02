@@ -1,10 +1,10 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from '@chakra-ui/react';
 
-import { HorizonLogo } from "components/icons/Icon";
-import { HSeparator } from "components/separator/Separator";
+import { HorizonLogo } from '@/components/icons/Icon';
+import { HSeparator } from '@/components/separator/Separator';
 
 const SidebarBrand = () => {
-  const logoColor = useColorModeValue("navy.700", "white");
+  const logoColor = useColorModeValue('navy.700', 'white');
 
   return (
     <Flex alignItems="center" flexDirection="column">

@@ -1,10 +1,15 @@
-import { useCallback, useMemo, useState, ReactNode, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { useCallback, useMemo, useState, ReactNode, useEffect } from 'react';
 
-import Slider from "./components/Slider";
-import Track from "./components/Track";
+import { Box } from '@chakra-ui/react';
 
-const Carousel = (props: { children: ReactNode; gap: number; onActiveItem?: (indexItem: number) => void }) => {
+import Slider from './components/Slider';
+import Track from './components/Track';
+
+const Carousel = (props: {
+  children: ReactNode;
+  gap: number;
+  onActiveItem?: (indexItem: number) => void;
+}) => {
   const [activeItem, setActiveItem] = useState(0);
   const [itemHeight, setItemHeight] = useState(0);
 
@@ -18,16 +23,11 @@ const Carousel = (props: { children: ReactNode; gap: number; onActiveItem?: (ind
     [children, itemHeight]
   );
 
-  const initItemHeight = useCallback(
-    (height: number) => setItemHeight(height),
-    []
-  );
+  const initItemHeight = useCallback((height: number) => setItemHeight(height), []);
 
   useEffect(() => {
     onActiveItem && onActiveItem(activeItem);
-
-  }, [activeItem, onActiveItem])
-  
+  }, [activeItem, onActiveItem]);
 
   return (
     <Slider

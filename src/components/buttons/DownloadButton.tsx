@@ -1,15 +1,15 @@
-import { DownloadIcon } from "@chakra-ui/icons";
-import { IconButton, useColorModeValue } from "@chakra-ui/react";
+import { DownloadIcon } from '@chakra-ui/icons';
+import { IconButton, useColorModeValue } from '@chakra-ui/react';
 
 const DownloadButton = (props: { content: string; fileName: string }) => {
-  const iconColor = useColorModeValue("brand.500", "white");
+  const iconColor = useColorModeValue('brand.500', 'white');
   const { content, fileName } = props;
 
   const handleDownload = () => {
-    const blob = new Blob([content], { type: "text/plain" });
+    const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = fileName;
     document.body.appendChild(a);

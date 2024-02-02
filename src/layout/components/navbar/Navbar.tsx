@@ -6,9 +6,9 @@ import {
   Flex,
   Link,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import NavbarLinks from "../navbarLinks/NavbarLinks";
+import NavbarLinks from '../navbarLinks/NavbarLinks';
 
 const Navbar = (props: {
   secondary: boolean;
@@ -18,20 +18,17 @@ const Navbar = (props: {
 }) => {
   const { secondary, brandText } = props;
 
-  const mainText = useColorModeValue("navy.700", "white");
-  const secondaryText = useColorModeValue("gray.700", "white");
-  const navbarPosition = "fixed" as const;
-  const navbarFilter = "none";
-  const navbarBackdrop = "blur(20px)";
-  const navbarShadow = "none";
-  const navbarBg = useColorModeValue(
-    "rgba(244, 247, 254, 0.2)",
-    "rgba(11,20,55,0.5)"
-  );
-  const navbarBorder = "transparent";
-  const secondaryMargin = "0px";
-  const paddingX = "15px";
-  const gap = "0px";
+  const mainText = useColorModeValue('navy.700', 'white');
+  const secondaryText = useColorModeValue('gray.700', 'white');
+  const navbarPosition = 'fixed' as const;
+  const navbarFilter = 'none';
+  const navbarBackdrop = 'blur(20px)';
+  const navbarShadow = 'none';
+  const navbarBg = useColorModeValue('rgba(244, 247, 254, 0.2)', 'rgba(11,20,55,0.5)');
+  const navbarBorder = 'transparent';
+  const secondaryMargin = '0px';
+  const paddingX = '15px';
+  const gap = '0px';
 
   return (
     <Box
@@ -50,41 +47,41 @@ const Navbar = (props: {
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
       transition-property="box-shadow, background-color, filter, border"
       transitionTimingFunction="linear, linear, linear, linear"
-      alignItems={{ xl: "center" }}
-      display={secondary ? "block" : "flex"}
+      alignItems={{ xl: 'center' }}
+      display={secondary ? 'block' : 'flex'}
       minH="75px"
-      justifyContent={{ xl: "center" }}
+      justifyContent={{ xl: 'center' }}
       lineHeight="25.6px"
       mx="auto"
       mt={secondaryMargin}
       pb="8px"
-      right={{ base: "12px", md: "30px", lg: "30px", xl: "30px" }}
+      right={{ base: '12px', md: '30px', lg: '30px', xl: '30px' }}
       px={{
         sm: paddingX,
-        md: "10px",
+        md: '10px',
       }}
       ps={{
-        xl: "12px",
+        xl: '12px',
       }}
       pt="8px"
-      top={{ base: "12px", md: "16px", xl: "18px" }}
+      top={{ base: '12px', md: '16px', xl: '18px' }}
       w={{
-        base: "calc(100vw - 6%)",
-        md: "calc(100vw - 8%)",
-        lg: "calc(100vw - 6%)",
-        xl: "calc(100vw - 350px)",
+        base: 'calc(100vw - 6%)',
+        md: 'calc(100vw - 8%)',
+        lg: 'calc(100vw - 6%)',
+        xl: 'calc(100vw - 350px)',
       }}
     >
       <Flex
         w="100%"
         flexDirection={{
-          sm: "column",
-          md: "row",
+          sm: 'column',
+          md: 'row',
         }}
-        alignItems={{ xl: "center" }}
+        alignItems={{ xl: 'center' }}
         mb={gap}
       >
-        <Box mb={{ sm: "8px", md: "0px" }}>
+        <Box mb={{ sm: '8px', md: '0px' }}>
           <Breadcrumb>
             <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
               <BreadcrumbLink href="#" color={secondaryText}>
@@ -106,18 +103,18 @@ const Navbar = (props: {
             fontSize="34px"
             _hover={{ color: { mainText } }}
             _active={{
-              bg: "inherit",
-              transform: "none",
-              borderColor: "transparent",
+              bg: 'inherit',
+              transform: 'none',
+              borderColor: 'transparent',
             }}
             _focus={{
-              boxShadow: "none",
+              boxShadow: 'none',
             }}
           >
             {brandText}
           </Link>
         </Box>
-        <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
+        <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
           <NavbarLinks secondary={props.secondary} />
         </Box>
       </Flex>

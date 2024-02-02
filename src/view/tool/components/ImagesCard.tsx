@@ -1,8 +1,9 @@
-import { useCallback } from "react";
-import { Box, Text, Image } from "@chakra-ui/react";
+import { useCallback } from 'react';
 
-import Carousel from "components/carousel/Carousel";
-import { useUpdateCards } from "hook/useCard";
+import { Box, Text, Image } from '@chakra-ui/react';
+
+import Carousel from '@/components/carousel/Carousel';
+import { useUpdateCards } from '@/hook/useCard';
 
 const ImagesCard = (props: { word: string; pictures: string[] }) => {
   const { word, pictures } = props;
@@ -10,7 +11,7 @@ const ImagesCard = (props: { word: string; pictures: string[] }) => {
 
   const handleSelectImage = useCallback(
     (indexUrl: number) => {
-      const selectedImage = pictures?.[indexUrl] ?? "";
+      const selectedImage = pictures?.[indexUrl] ?? '';
       updateCard(word, selectedImage);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,19 +28,13 @@ const ImagesCard = (props: { word: string; pictures: string[] }) => {
               src={url}
               borderRadius="8px"
               objectFit="cover"
-              width={"100%"}
-              height={"100%"}
+              width={'100%'}
+              height={'100%'}
             />
           ))}
         </Carousel>
       </Box>
-      <Text
-        mt="5px"
-        textAlign="center"
-        fontWeight="500"
-        color={"gray.400"}
-        fontSize="20px"
-      >
+      <Text mt="5px" textAlign="center" fontWeight="500" color={'gray.400'} fontSize="20px">
         Selected this picture
       </Text>
     </Box>

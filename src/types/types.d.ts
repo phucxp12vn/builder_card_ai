@@ -1,5 +1,6 @@
-import React from "react";
-import { RouteClass } from "src/constant";
+import React from 'react';
+
+import { RouteClass } from '@/constant/index';
 
 export {};
 

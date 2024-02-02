@@ -1,37 +1,21 @@
-import {
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 
-import { Card as CardType } from "api/cardApi";
-import ImagesCard from "./ImagesCard";
+import { Card as CardType } from '@/api/cardApi';
+
+import ImagesCard from './ImagesCard';
 
 const ResultCard = (props: { card: CardType }) => {
-  const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
-  const textColorSecondary = "gray.400";
+  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
+  const textColorSecondary = 'gray.400';
   const { card } = props;
 
   return (
-    <Card mb="20px" w={"100%"}>
+    <Card mb="20px" w={'100%'}>
       <CardBody>
-        <Flex align="flex-start" direction={{ base: "column", md: "row" }}>
+        <Flex align="flex-start" direction={{ base: 'column', md: 'row' }}>
           <Flex align="center" w="100%" justify="space-between" mb="30px">
-            <Box
-              color={textColorPrimary}
-              fontWeight="bold"
-              fontSize="2xl"
-              mb="4px"
-            >
-              <Text
-                color={textColorPrimary}
-                fontWeight="bold"
-                fontSize="2xl"
-                mb="4px"
-              >
+            <Box color={textColorPrimary} fontWeight="bold" fontSize="2xl" mb="4px">
+              <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mb="4px">
                 Word: {card.word}
               </Text>
               <Text fontWeight="500" color={textColorSecondary} fontSize="sm">

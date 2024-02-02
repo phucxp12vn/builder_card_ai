@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useState, useCallback, useLayoutEffect } from 'react';
 
 type DebounceFunction = (...args: any[]) => void;
 
@@ -23,7 +22,7 @@ function getDimensionObject(node: any) {
     x: rect.x,
     y: rect.y,
     right: rect.right,
-    bottom: rect.bottom
+    bottom: rect.bottom,
   };
 }
 
@@ -36,21 +35,19 @@ export default function useBoundingRect(limit = 100) {
   }, []);
 
   useLayoutEffect(() => {
-    if ("undefined" !== typeof window && node) {
+    if ('undefined' !== typeof window && node) {
       const measure = () =>
-        window.requestAnimationFrame(() =>
-          setDimensions(getDimensionObject(node))
-        );
+        window.requestAnimationFrame(() => setDimensions(getDimensionObject(node)));
 
       measure();
 
       const listener = debounce(limit ? limit : 100, measure);
 
-      window.addEventListener("resize", listener);
-      window.addEventListener("scroll", listener);
+      window.addEventListener('resize', listener);
+      window.addEventListener('scroll', listener);
       return () => {
-        window.removeEventListener("resize", listener);
-        window.removeEventListener("scroll", listener);
+        window.removeEventListener('resize', listener);
+        window.removeEventListener('scroll', listener);
       };
     }
   }, [node, limit]);

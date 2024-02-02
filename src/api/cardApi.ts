@@ -1,5 +1,6 @@
-import { QueryKey } from "@tanstack/react-query";
-import api from "./api";
+import { QueryKey } from '@tanstack/react-query';
+
+import api from './api';
 
 export interface Card {
   word: string;
@@ -7,7 +8,7 @@ export interface Card {
   pictures: string[];
   selectedPicture: string;
   ipa: string;
-  type: string;   
+  type: string;
   define: string;
   example: string;
   audio: string;
@@ -15,16 +16,14 @@ export interface Card {
 
 export const buildCards = async (words: string[]) => {
   const { data } = await api.post<Card[]>(`http://localhost:5173/api/build`, {
-    words: words.join(";"),
+    words: words.join(';'),
   });
 
   return data;
 };
 
 export const defaultQueryFn = async ({ queryKey }: { queryKey: QueryKey }) => {
-  const { data } = await api.get(
-    `https://jsonplaceholder.typicode.com/${queryKey[0]}`
-  );
+  const { data } = await api.get(`https://jsonplaceholder.typicode.com/${queryKey[0]}`);
 
   return data;
 };

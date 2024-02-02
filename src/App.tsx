@@ -1,11 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import "./App.css";
-import { renderRoutes } from "./routes";
-import theme from "./theme/theme";
-import { defaultQueryFn } from "api/cardApi";
+import { defaultQueryFn } from '@/api/cardApi';
+
+import './App.css';
+import { renderRoutes } from './routes';
+import theme from './theme/theme';
 
 const router = createBrowserRouter(renderRoutes);
 
