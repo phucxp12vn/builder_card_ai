@@ -3,11 +3,10 @@ import { MdHome } from 'react-icons/md';
 import { RouteObject } from 'react-router-dom';
 
 import { RouteClass } from '@/constant/index';
+import MainLayout from '@/layout/MainLayout';
+import BuildCard from '@/view/tool/BuildCard';
 
-import MainLayout from './layout/MainLayout';
-import BuildCard from './view/tool/BuildCard';
-
-const routes: RoutesType[] = [
+export const menuRoutes: RoutesType[] = [
   {
     name: 'Main Dashboard',
     classification: RouteClass.PRIVATE,
@@ -17,15 +16,13 @@ const routes: RoutesType[] = [
   },
 ];
 
-const privateRoutes: RouteObject[] = routes
+export const mappedRoutes: RouteObject[] = menuRoutes
   .filter((route) => route.classification === RouteClass.PRIVATE)
   .map((route) => ({ path: route.path, element: <route.component /> }));
 
-export const renderRoutes: RouteObject[] = [
+export const protectedRoutes: RouteObject[] = [
   {
     element: <MainLayout />,
-    children: [...privateRoutes],
+    children: [...mappedRoutes],
   },
 ];
-
-export default routes;

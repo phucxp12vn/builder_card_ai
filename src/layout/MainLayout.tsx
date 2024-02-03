@@ -1,9 +1,10 @@
 import { Portal, Box } from '@chakra-ui/react';
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { menuRoutes as routes } from '@/routes';
+
 import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/SideBar';
-import routes from '../routes';
 
 const MainLayout = () => {
   const location = useLocation();
