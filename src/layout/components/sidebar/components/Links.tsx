@@ -20,7 +20,7 @@ const SidebarLinks = (props: { routes: RoutesType[] }) => {
   const createLinks = (routes: RoutesType[]) => {
     return routes.map((route: RoutesType, index: number) => {
       return (
-        <NavLink key={index} to={route.layout + route.path}>
+        <NavLink key={index} to={route.path}>
           {route.icon ? (
             <Box>
               <HStack
