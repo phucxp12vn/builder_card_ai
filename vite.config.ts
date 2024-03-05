@@ -25,7 +25,8 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://build-card-server:3000',
+        // target: 'http://build-card-server:3000',
+        target: 'http://192.168.1.14:3001',
         changeOrigin: true,
       },
     },
