@@ -5,21 +5,24 @@ import {
   Box,
   Button,
   Card,
+  Center,
   IconButton,
+  Select,
+  Stack,
   Text,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import YouTube, { YouTubeProps, YouTubePlayer } from 'react-youtube';
 
-import { Transcript } from '@/api/transcriptApi';
-import { useGetTranscript } from '@/hook/useTranscript';
+import { Transcript, Video } from '@/api/transcriptApi';
+import { useGetTranscript, useGetVideos } from '@/hook/useTranscript';
 
-import TranscriptModal from './components/TranscriptModal';
+import TranscriptFormModal from './components/TranscriptFormModal';
+import TranscriptSummaryModal from './components/TranscriptSummaryModal';
 
 const opts: YouTubeProps['opts'] = {
-  height: '300',
-  width: '530',
+  width: '100%',
   playerVars: {
     autoplay: 0, // Auto-play the video on load
     controls: 0, // Show pause/play buttons in player
@@ -28,20 +31,39 @@ const opts: YouTubeProps['opts'] = {
     fs: 1, // Hide the full screen button
     cc_load_policy: 0, // Hide closed captions
     iv_load_policy: 3, // Hide the Video Annotations
-    start: 14,
-    end: 18,
     autohide: 0, // Hide video controls when playing
   },
 };
 
-const videoId = 'NGx7LM-cncs';
+const SelectVideoLearn = ({
+  videoId,
+  onSelect,
+  videos,
+}: {
+  videoId: string;
+  onSelect: (e: any) => void;
+  videos: Video[];
+}) => {
+  return (
+    <Select
+      placeholder="Select video"
+      value={videos.find((video) => video.videoId === videoId)?.title ?? ''}
+      onChange={onSelect}
+    >
+      {videos?.map(({ videoId, title }) => <option key={videoId}>{title}</option>)}
+    </Select>
+  );
+};
 
 const availablePlaybackRates = [1, 0.75, 0.5];
 
 const LearnBox = () => {
+  const [videoId, setVideoId] = useState('');
   const playerVideo = useRef<YouTubePlayer | null>(null);
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
+  const { isOpen: isOpenSummary, onOpen: onOpenSummary, onClose: onCloseSummary } = useDisclosure();
   const { data: transcript } = useGetTranscript(videoId);
+  const { data: videos } = useGetVideos();
   const [transcriptIndex, setTranscriptIndex] = useState(0);
   const [focusTranscript, setFocusTranscript] = useState<Transcript | null>(null);
   const [repeated] = useState(true);
@@ -63,7 +85,7 @@ const LearnBox = () => {
         endSeconds: focusTranscript.endTime,
       });
     }
-  }, [focusTranscript]);
+  }, [focusTranscript, videoId]);
 
   useEffect(() => {
     if (repeated && focusTranscript) {
@@ -73,7 +95,7 @@ const LearnBox = () => {
         endSeconds: focusTranscript.endTime,
       });
     }
-  }, [repeated, focusTranscript]);
+  }, [repeated, focusTranscript, videoId]);
 
   const handlePlayerReady: YouTubeProps['onReady'] = (event) => {
     playerVideo.current = event.target;
@@ -97,10 +119,6 @@ const LearnBox = () => {
       playerVideo?.current.playVideo();
     }
   };
-
-  // const handleChangeRepeat = () => {
-  //   setRepeated((preValue) => !preValue);
-  // };
 
   const handleChangePlayRate = () => {
     const newPlayRateIndex =
@@ -130,74 +148,106 @@ const LearnBox = () => {
     setTranscriptIndex((preIndex) => (preIndex === 0 ? 0 : preIndex - 1));
   };
 
+  const handleSelectVideo = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    playerVideo.current = null;
+    setVideoId(videos?.[e.target.selectedIndex - 1].videoId ?? '');
+  };
+
   return (
     <Card p={4} h="100vh">
-      <Box mx="auto">
-        <YouTube
-          videoId={videoId}
-          opts={opts}
-          onReady={handlePlayerReady}
-          onStateChange={handlePlayerChange}
-        />
-      </Box>
-      <Box mt={4}>
-        <Button onClick={onOpenAdd} my={4}>
-          Add new transcript
-        </Button>
-      </Box>
-      {/* <Box mt={4}>
-        <Text>Repeat</Text>
-        <Switch id="isChecked" isChecked={repeated} onChange={handleChangeRepeat} />
-      </Box> */}
-      <TranscriptModal videoId={videoId} isOpen={isOpenAdd} onClose={onCloseAdd} />
-      <Box
-        rounded="16px"
-        border="1px"
-        borderColor="gray.200"
-        px={10}
-        py={5}
-        position="relative"
-        height="calc(100% - 200px)"
-      >
-        <Button variant="outline" size="md" onClick={handleChangePlayRate}>
-          {availablePlaybackRates[playRateIndex]}x
-        </Button>
-        {transcript?.[transcriptIndex] ? (
-          <Box onClick={handlePlayAgain} h={'calc(100% - 80px)'}>
-            <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mb="4px">
-              {transcript?.[transcriptIndex].content}
-            </Text>
+      {videoId !== '' ? (
+        <>
+          <Box mx="auto" w="100%" maxW="800px">
+            <YouTube
+              videoId={videoId}
+              opts={opts}
+              style={{ width: '100%' }}
+              onReady={handlePlayerReady}
+              onStateChange={handlePlayerChange}
+            />
           </Box>
-        ) : (
-          <Box>No data for transcript</Box>
-        )}
-        {transcript && (
-          <Text h="5px">
-            <strong>{transcriptIndex + 1}</strong>
-            {`/${transcript?.length}`}
-          </Text>
-        )}
-        <IconButton
-          size="md"
-          aria-label="previous"
-          icon={<ChevronLeftIcon />}
-          onClick={handlePrevious}
-          position={'absolute'}
-          left="0"
-          top="50%"
-          transform={'translateY(-50%)'}
-        />
-        <IconButton
-          size="md"
-          aria-label="next"
-          icon={<ChevronRightIcon />}
-          onClick={handleNext}
-          position={'absolute'}
-          right="0"
-          top="50%"
-          transform={'translateY(-50%)'}
-        />
-      </Box>
+          <Stack direction={{ sm: 'column', md: 'row' }} my={4}>
+            <Button onClick={onOpenAdd} my={4}>
+              Add new transcript
+            </Button>
+            <Button onClick={onOpenSummary} my={4}>
+              Transcript summary
+            </Button>
+            <Center w={{ sm: '100%', md: '200px' }}>
+              <SelectVideoLearn
+                videoId={videoId}
+                videos={videos ?? []}
+                onSelect={handleSelectVideo}
+              />
+            </Center>
+          </Stack>
+          <TranscriptFormModal videoId={videoId} isOpen={isOpenAdd} onClose={onCloseAdd} />
+          <TranscriptSummaryModal
+            videoId={videoId}
+            isOpen={isOpenSummary}
+            onClose={onCloseSummary}
+          />
+          <Box
+            rounded="16px"
+            border="1px"
+            borderColor="gray.200"
+            px={10}
+            py={5}
+            position="relative"
+            height="calc(100% - 200px)"
+          >
+            <Button variant="outline" size="md" onClick={handleChangePlayRate}>
+              {availablePlaybackRates[playRateIndex]}x
+            </Button>
+            {transcript?.[transcriptIndex] ? (
+              <Box onClick={handlePlayAgain} h={'calc(100% - 80px)'}>
+                <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mb="4px">
+                  {transcript?.[transcriptIndex].content}
+                </Text>
+              </Box>
+            ) : (
+              <Box>No data for transcript</Box>
+            )}
+            {(transcript?.length ?? 0) > 0 && (
+              <Text h="5px">
+                <strong>{transcriptIndex + 1}</strong>
+                {`/${transcript?.length}`}
+              </Text>
+            )}
+            <IconButton
+              size="md"
+              aria-label="previous"
+              icon={<ChevronLeftIcon />}
+              onClick={handlePrevious}
+              position={'absolute'}
+              left="0"
+              top="50%"
+              transform={'translateY(-50%)'}
+            />
+            <IconButton
+              size="md"
+              aria-label="next"
+              icon={<ChevronRightIcon />}
+              onClick={handleNext}
+              position={'absolute'}
+              right="0"
+              top="50%"
+              transform={'translateY(-50%)'}
+            />
+          </Box>
+        </>
+      ) : (
+        <Center h="100%">
+          <Stack width="300px">
+            <Text align="center">Video Not Found</Text>
+            <SelectVideoLearn
+              videoId={videoId}
+              videos={videos ?? []}
+              onSelect={handleSelectVideo}
+            />
+          </Stack>
+        </Center>
+      )}
     </Card>
   );
 };

@@ -12,9 +12,7 @@ const SidebarLinks = (props: { routes: RoutesType[] }) => {
   const { routes } = props;
 
   // verifies if routeName is the one active (in browser input)
-  const activeRoute = (routeName: string) => {
-    return location.pathname.includes(routeName);
-  };
+  const activeRoute = (routeName: string) => location.pathname === routeName;
 
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: RoutesType[]) => {

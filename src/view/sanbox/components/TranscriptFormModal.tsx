@@ -50,7 +50,7 @@ const TranscriptForm = ({ formik }: { formik: any }) => {
       </FormControl>
       <FormControl isInvalid={Boolean(formik.errors.startTime) && formik.touched.startTime}>
         <FormLabel color={textColorPrimary} fontWeight="500" fontSize="md" mb="4px">
-          Start startTime (s)
+          Start Time (s)
         </FormLabel>
         <Input
           id="startTime"
@@ -65,7 +65,7 @@ const TranscriptForm = ({ formik }: { formik: any }) => {
       </FormControl>
       <FormControl isInvalid={Boolean(formik.errors.endTime) && formik.touched.endTime}>
         <FormLabel color={textColorPrimary} fontWeight="500" fontSize="md" mb="4px">
-          End startTime (s)
+          End Time (s)
         </FormLabel>
         <Input
           id="endTime"
@@ -95,7 +95,7 @@ const TranscriptForm = ({ formik }: { formik: any }) => {
   );
 };
 
-const TranscriptModal = ({ videoId, isOpen, onClose }: any) => {
+const TranscriptFormModal = ({ videoId, isOpen, onClose }: any) => {
   const formik = useFormik({
     initialValues: {
       content: '',
@@ -107,13 +107,15 @@ const TranscriptModal = ({ videoId, isOpen, onClose }: any) => {
       content: Yup.string().required('Please input content.'),
       startTime: Yup.number()
         .required('Please startTime of sentence in video.')
-        .positive('Please input number greater than 0.'),
+        .min(0, 'Please input start from 0'),
+      // .positive('Please input number greater than 0.'),
     }),
-    onSubmit: ({ content, startTime, endTime, notes }) =>
-      mutate({ content: content, startTime, endTime, notes, videoId }),
+    onSubmit: ({ content, startTime, endTime, notes }) => {
+      mutate({ content: content, startTime, endTime, notes, videoId });
+    },
   });
 
-  const { mutate, isPending } = useAddTranscript(formik);
+  const { mutate, isPending } = useAddTranscript(formik, videoId);
 
   const textColorSecondary = 'gray.400';
 
@@ -153,4 +155,4 @@ const TranscriptModal = ({ videoId, isOpen, onClose }: any) => {
   );
 };
 
-export default TranscriptModal;
+export default TranscriptFormModal;

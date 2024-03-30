@@ -1,6 +1,6 @@
 import { Icon } from '@chakra-ui/react';
 import { AiFillCustomerService } from 'react-icons/ai';
-// import { MdHome } from 'react-icons/md';
+import { MdHome } from 'react-icons/md';
 import { RouteObject } from 'react-router-dom';
 
 import { RouteClass } from '@/constant/index';
@@ -9,18 +9,17 @@ import LearnBox from '@/view/sanbox/LearnBox';
 // import BuildCard from '@/view/tool/BuildCard';
 
 export const menuRoutes: RoutesType[] = [
-  // {
-  //   name: 'Main Dashboard',
-  //   classification: RouteClass.PRIVATE,
-  //   path: '/',
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  //   component: BuildCard,
-  // },
+  {
+    name: 'Main Dashboard',
+    classification: RouteClass.PRIVATE,
+    path: '/',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: () => <></>,
+  },
   {
     name: 'Sanbox Learning',
     classification: RouteClass.PRIVATE,
-    // path: '/learn-box',
-    path: '/',
+    path: '/learn-box',
     icon: <Icon as={AiFillCustomerService} width="20px" height="20px" color="inherit" />,
     component: LearnBox,
   },

@@ -10,12 +10,7 @@ import {
 
 import NavbarLinks from '../navbarLinks/NavbarLinks';
 
-const Navbar = (props: {
-  secondary: boolean;
-  brandText: string;
-  logoText: string;
-  fixed: boolean;
-}) => {
+const Navbar = (props: { secondary: boolean; brandText: string; fixed: boolean }) => {
   const { secondary, brandText } = props;
 
   const mainText = useColorModeValue('navy.700', 'white');

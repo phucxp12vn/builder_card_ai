@@ -23,12 +23,15 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-    proxy: {
-      '/api': {
-        // target: 'http://build-card-server:3000',
-        target: 'http://192.168.1.14:3001',
-        changeOrigin: true,
-      },
+    fs: {
+      cachedChecks: false,
     },
+    // proxy: {
+    //   '/api': {
+    // target: 'http://build-card-server:3000',
+    //     target: 'http://192.168.1.9:3000',
+    //     changeOrigin: true,
+    //   },
+    // },
   },
 });

@@ -11,7 +11,7 @@ const MainLayout = () => {
   const getActiveRoute = (routes: RoutesType[]): string => {
     const activeRoute = 'Default Brand Text';
     for (let i = 0; i < routes.length; i++) {
-      if (location.pathname.indexOf(routes[i].path) !== -1) {
+      if (location.pathname === routes[i].path) {
         return routes[i].name;
       }
     }
@@ -37,12 +37,7 @@ const MainLayout = () => {
       >
         <Portal>
           <Box>
-            <Navbar
-              logoText={'Horizon UI Dashboard PRO'}
-              brandText={getActiveRoute(routes)}
-              secondary={true}
-              fixed={true}
-            />
+            <Navbar brandText={getActiveRoute(routes)} secondary={true} fixed={true} />
           </Box>
         </Portal>
         <Box mx="auto" p={{ base: '20px', md: '30px' }} pe="20px" minH="100vh">
