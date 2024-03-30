@@ -108,7 +108,6 @@ const TranscriptFormModal = ({ videoId, isOpen, onClose }: any) => {
       startTime: Yup.number()
         .required('Please startTime of sentence in video.')
         .min(0, 'Please input start from 0'),
-      // .positive('Please input number greater than 0.'),
     }),
     onSubmit: ({ content, startTime, endTime, notes }) => {
       mutate({ content: content, startTime, endTime, notes, videoId });

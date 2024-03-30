@@ -154,7 +154,7 @@ const LearnBox = () => {
   };
 
   return (
-    <Card p={4} h="100vh">
+    <Card p={4} minH="100vh">
       {videoId !== '' ? (
         <>
           <Box mx="auto" w="100%" maxW="800px">
@@ -167,10 +167,10 @@ const LearnBox = () => {
             />
           </Box>
           <Stack direction={{ sm: 'column', md: 'row' }} my={4}>
-            <Button onClick={onOpenAdd} my={4}>
+            <Button onClick={onOpenAdd} my={{ sm: 0, md: 4 }}>
               Add new transcript
             </Button>
-            <Button onClick={onOpenSummary} my={4}>
+            <Button onClick={onOpenSummary} my={{ sm: 0, md: 4 }}>
               Transcript summary
             </Button>
             <Center w={{ sm: '100%', md: '200px' }}>
@@ -194,7 +194,7 @@ const LearnBox = () => {
             px={10}
             py={5}
             position="relative"
-            height="calc(100% - 200px)"
+            minHeight="300px"
           >
             <Button variant="outline" size="md" onClick={handleChangePlayRate}>
               {availablePlaybackRates[playRateIndex]}x
@@ -209,7 +209,7 @@ const LearnBox = () => {
               <Box>No data for transcript</Box>
             )}
             {(transcript?.length ?? 0) > 0 && (
-              <Text h="5px">
+              <Text>
                 <strong>{transcriptIndex + 1}</strong>
                 {`/${transcript?.length}`}
               </Text>
@@ -237,7 +237,7 @@ const LearnBox = () => {
           </Box>
         </>
       ) : (
-        <Center h="100%">
+        <Center h="100vh">
           <Stack width="300px">
             <Text align="center">Video Not Found</Text>
             <SelectVideoLearn
