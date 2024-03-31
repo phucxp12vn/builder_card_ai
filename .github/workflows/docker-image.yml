@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout file
-        uses: action/checkout@2
+        uses: action/checkout@v2
 
       - name: Install doctl
         uses: appleboy/ssh-action@v1.0.3
