@@ -9,9 +9,14 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+
+  build:
+
     runs-on: ubuntu-latest
+
+    outputs:
+      imagetag: ${{ steps.meta.outputs.tags }}
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -36,3 +41,20 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout file
+        uses: action/checkout@2
+
+      - name: Install doctl
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: cat ${{ needs.build.outputs.imagetag }} > test_file.txt
