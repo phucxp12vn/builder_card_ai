@@ -57,5 +57,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: cat ${{ needs.build.outputs.version }} > test_file.txt
-
+          script: |
+            docker system prune -f 
+            export DOCKER_HUB_FRONT_END_VERSION=v0.9.7 
+            cd ./home 
+            docker stack deploy -c docker-swarm.yml build-card-ai 
+            docker system prune -f 
