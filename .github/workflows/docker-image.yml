@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      version: 123
+      version: ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
 
     steps:
       - name: Check out the repo
