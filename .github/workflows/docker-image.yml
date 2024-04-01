@@ -59,7 +59,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             docker system prune -f 
-            export DOCKER_HUB_FRONT_END_VERSION=v0.9.7 
+            export DOCKER_HUB_FRONT_END_VERSION=${{ needs.build.outputs.version }}
             cd ./home 
             docker stack deploy -c docker-swarm.yml build-card-ai 
             docker system prune -f 
+
