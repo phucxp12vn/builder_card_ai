@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      version: ${{ steps.meta.outputs.labels.org.opencontainers.image.version }}
+      version: 123
 
     steps:
       - name: Check out the repo
