@@ -5,7 +5,7 @@ import { RouteObject } from 'react-router-dom';
 
 import { RouteClass } from '@/constant/index';
 import MainLayout from '@/layout/MainLayout';
-import LearnBox from '@/view/sanbox/LearnBox';
+import SandBox from '@/view/sandbox/Sandbox';
 // import BuildCard from '@/view/tool/BuildCard';
 
 export const menuRoutes: RoutesType[] = [
@@ -17,11 +17,11 @@ export const menuRoutes: RoutesType[] = [
     component: () => <></>,
   },
   {
-    name: 'Sanbox Learning',
+    name: 'Sandbox Learning',
     classification: RouteClass.PRIVATE,
-    path: '/learn-box',
+    path: '/sandbox',
     icon: <Icon as={AiFillCustomerService} width="20px" height="20px" color="inherit" />,
-    component: LearnBox,
+    component: SandBox,
   },
 ];
 

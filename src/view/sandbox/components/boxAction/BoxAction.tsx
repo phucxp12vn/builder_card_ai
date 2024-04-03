@@ -1,10 +1,10 @@
 import { Button, Center, Stack, useDisclosure } from '@chakra-ui/react';
 
-import SelectLearnVideo from './SelectLearnVideo';
-import TranscriptFormModal from './TranscriptFormModal';
-import TranscriptSummaryModal from './TranscriptSummaryModal';
+import TranscriptFormModal from './components/TranscriptFormModal';
+import TranscriptSummaryModal from './components/TranscriptSummaryModal';
+import SelectLearnVideo from '../SelectLearnVideo';
 
-const BoxAction = ({ videoId, videos, onSelect }: any) => {
+const BoxAction = () => {
   const { isOpen: isOpenSummary, onOpen: onOpenSummary, onClose: onCloseSummary } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
 
@@ -18,11 +18,11 @@ const BoxAction = ({ videoId, videos, onSelect }: any) => {
           Transcript summary
         </Button>
         <Center w={{ sm: '100%', md: '200px' }}>
-          <SelectLearnVideo videoId={videoId} videos={videos ?? []} onSelect={onSelect} />
+          <SelectLearnVideo />
         </Center>
       </Stack>
-      <TranscriptFormModal videoId={videoId} isOpen={isOpenAdd} onClose={onCloseAdd} />
-      <TranscriptSummaryModal videoId={videoId} isOpen={isOpenSummary} onClose={onCloseSummary} />
+      <TranscriptFormModal isOpen={isOpenAdd} onClose={onCloseAdd} />
+      <TranscriptSummaryModal isOpen={isOpenSummary} onClose={onCloseSummary} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import {
@@ -30,6 +30,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Transcript } from '@/api/transcriptApi';
+import { LearnBoxContext, LearnBoxType } from '@/contexts/LearnBoxContext';
 import { useGetTranscript, useUpdateTranscript, useDeleteTranscript } from '@/hook/useTranscript';
 
 function ConfirmDialog({
@@ -185,7 +186,9 @@ const TranscriptSummary = ({ videoId }: any) => {
   );
 };
 
-const TranscriptSummaryModal = ({ videoId, isOpen, onClose }: any) => {
+const TranscriptSummaryModal = ({ isOpen, onClose }: any) => {
+  const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
       <ModalOverlay />

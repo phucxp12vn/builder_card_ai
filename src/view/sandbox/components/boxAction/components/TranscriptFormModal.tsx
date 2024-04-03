@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import {
   Modal,
   ModalOverlay,
@@ -21,6 +23,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { LearnBoxContext, LearnBoxType } from '@/contexts/LearnBoxContext';
 import { useAddTranscript } from '@/hook/useTranscript';
 
 import TranscriptYoutube from './TranscriptYoutube';
@@ -95,7 +98,9 @@ const TranscriptForm = ({ formik }: { formik: any }) => {
   );
 };
 
-const TranscriptFormModal = ({ videoId, isOpen, onClose }: any) => {
+const TranscriptFormModal = ({ isOpen, onClose }: any) => {
+  const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
+
   const formik = useFormik({
     initialValues: {
       content: '',

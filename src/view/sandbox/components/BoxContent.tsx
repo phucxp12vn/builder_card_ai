@@ -1,18 +1,15 @@
+import { useContext } from 'react';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 
+import { LearnBoxContext, LearnBoxType } from '@/contexts/LearnBoxContext';
 import { useGetTranscript } from '@/hook/useTranscript';
 
 const availablePlaybackRates = [1, 0.75, 0.5];
 
-const BoxContent = ({
-  videoId,
-  transcriptIndex,
-  playRateIndex,
-  onNext,
-  onPrev,
-  onChangeRate,
-}: any) => {
+const BoxContent = ({ transcriptIndex, playRateIndex, onNext, onPrev, onChangeRate }: any) => {
+  const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
   const { data: transcript } = useGetTranscript(videoId);
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
 
