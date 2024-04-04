@@ -1,6 +1,7 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@chakra-ui/react';
+import _ from 'lodash';
 import YouTube, { YouTubeProps, YouTubePlayer } from 'react-youtube';
 
 import { Transcript } from '@/api/transcriptApi';
@@ -16,8 +17,8 @@ const availablePlaybackRates = [1, 0.75, 0.5];
 
 const LearnBox = () => {
   const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
-  const playerVideo = useRef<YouTubePlayer | null>(null);
   const { data: transcript } = useGetTranscript(videoId);
+  const playerVideo = useRef<YouTubePlayer | null>(null);
   const [transcriptIndex, setTranscriptIndex] = useState(0);
   const [focusTranscript, setFocusTranscript] = useState<Transcript | null>(null);
   const [playRateIndex, setPlayRateIndex] = useState(0);
@@ -25,7 +26,9 @@ const LearnBox = () => {
   useEffect(() => {
     if (transcript && transcript.length > 0) {
       setFocusTranscript(transcript[transcriptIndex]);
+      debounceResetVideo.cancel();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transcript, transcriptIndex]);
 
   useEffect(() => {
@@ -35,34 +38,34 @@ const LearnBox = () => {
 
   useEffect(() => {
     if (focusTranscript) {
-      playerVideo?.current?.loadVideoById({
-        videoId: videoId,
-        startSeconds: focusTranscript.startTime,
-        endSeconds: focusTranscript.endTime,
-      });
+      playerVideo.current?.seekTo(focusTranscript.startTime);
     }
-  }, [focusTranscript, videoId]);
+  }, [focusTranscript]);
+
+  const duration =
+    focusTranscript !== null ? (focusTranscript.endTime - focusTranscript.startTime) * 1000 : 0;
+  const debounceResetVideo = useCallback(
+    _.debounce((startTime) => duration && playerVideo.current.seekTo(startTime), duration),
+    [duration]
+  );
 
   const handlePlayerReady: YouTubeProps['onReady'] = (event) => {
     playerVideo.current = event.target;
-    if (focusTranscript) {
-      event.target.loadVideoById({
-        videoId: videoId,
-        startSeconds: focusTranscript.startTime,
-        endSeconds: focusTranscript.endTime,
-      });
-    }
-    event.target.playVideo();
+    focusTranscript && playerVideo.current.seekTo(focusTranscript.startTime);
+    playerVideo.current.playVideo();
   };
 
   const handlePlayerChange: YouTubeProps['onStateChange'] = (event) => {
-    if (event.data === YouTube.PlayerState.ENDED && focusTranscript) {
-      playerVideo?.current?.loadVideoById({
-        videoId: videoId,
-        startSeconds: focusTranscript.startTime,
-        endSeconds: focusTranscript.endTime,
-      });
-      playerVideo?.current.playVideo();
+    if (event.data === YouTube.PlayerState.CUED) {
+      playerVideo.current.playVideo();
+    }
+
+    if (event.data === YouTube.PlayerState.UNSTARTED && focusTranscript) {
+      playerVideo.current.seekTo(focusTranscript.startTime);
+    }
+
+    if (event.data === YouTube.PlayerState.PLAYING && focusTranscript) {
+      debounceResetVideo(focusTranscript.startTime);
     }
   };
 

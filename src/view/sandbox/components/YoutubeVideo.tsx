@@ -12,6 +12,10 @@ const opts: YouTubeProps['opts'] = {
     cc_load_policy: 0, // Hide closed captions
     iv_load_policy: 3, // Hide the Video Annotations
     autohide: 0, // Hide video controls when playing
+    // start: 15,
+    // end: 22,
+    // loop: 1,
+    // playlist: 'NGx7LM-cncs',
   },
 };
 
