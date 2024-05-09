@@ -11,10 +11,10 @@ const BoxAction = () => {
   return (
     <>
       <Stack direction={{ sm: 'column', md: 'row' }} my={4}>
-        <Button onClick={onOpenAdd} my={{ sm: 0, md: 4 }}>
+        <Button onClick={onOpenAdd} my={{ sm: 0, md: 4 }} isDisabled={true}>
           Add new transcript
         </Button>
-        <Button onClick={onOpenSummary} my={{ sm: 0, md: 4 }}>
+        <Button onClick={onOpenSummary} my={{ sm: 0, md: 4 }} isDisabled={true}>
           Transcript summary
         </Button>
         <Center w={{ sm: '100%', md: '200px' }}>

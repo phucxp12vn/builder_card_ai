@@ -12,3 +12,11 @@ export const convertToPlainText = (cards: Card[]) => {
 
   return result;
 };
+
+export const extractYouTubeVideoId = (url: string) => {
+  const pattern =
+    // eslint-disable-next-line no-useless-escape
+    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(pattern);
+  return match && match[1];
+};

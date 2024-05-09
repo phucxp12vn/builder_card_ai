@@ -8,9 +8,10 @@ import { useGetTranscript } from '@/hook/useTranscript';
 
 const availablePlaybackRates = [1, 0.75, 0.5];
 
-const BoxContent = ({ transcriptIndex, playRateIndex, onNext, onPrev, onChangeRate }: any) => {
+const BoxContent = ({ sentenceIndex, playRateIndex, onNext, onPrev, onChangeRate }: any) => {
   const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
   const { data: transcript } = useGetTranscript(videoId);
+  const sentences = transcript?.sentences ?? [];
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
 
   return (
@@ -26,19 +27,19 @@ const BoxContent = ({ transcriptIndex, playRateIndex, onNext, onPrev, onChangeRa
       <Button variant="outline" size="md" onClick={onChangeRate}>
         {availablePlaybackRates[playRateIndex]}x
       </Button>
-      {transcript?.[transcriptIndex] ? (
+      {sentences?.[sentenceIndex] ? (
         <Box h={'calc(100% - 80px)'}>
           <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mb="4px">
-            {transcript?.[transcriptIndex].content}
+            {sentences?.[sentenceIndex].content}
           </Text>
         </Box>
       ) : (
         <Box>No data for transcript</Box>
       )}
-      {(transcript?.length ?? 0) > 0 && (
+      {(sentences?.length ?? 0) > 0 && (
         <Text>
-          <strong>{transcriptIndex + 1}</strong>
-          {`/${transcript?.length}`}
+          <strong>{sentenceIndex + 1}</strong>
+          {`/${sentences?.length}`}
         </Text>
       )}
       <IconButton

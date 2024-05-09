@@ -5,12 +5,12 @@ export interface TranscriptYoutube {
   time: number;
 }
 
-export interface Video {
+export interface VideoTitle {
   videoId: string;
   title: string;
 }
 
-export interface Transcript {
+export interface Sentence {
   id: string;
   content: string;
   startTime: number;
@@ -18,10 +18,12 @@ export interface Transcript {
   notes: string;
 }
 
-type TranscriptRequest = Omit<Transcript, 'id'> & { videoId: string };
+export type Transcript = VideoTitle & { sentences: Sentence[] };
+
+type TranscriptRequest = Omit<Sentence, 'id'> & { videoId: string };
 
 export const getTranscriptYoutube = async (videoId: string) => {
-  const { data } = await api.get<TranscriptYoutube[]>(`/api/transcript-youtube`, {
+  const { data } = await api.get<TranscriptYoutube[]>(`/transcripts-youtube`, {
     params: {
       videoId,
     },
@@ -31,29 +33,25 @@ export const getTranscriptYoutube = async (videoId: string) => {
 };
 
 export const getTranscript = async (videoId: string) => {
-  const { data } = await api.get<Transcript[]>(`/api/transcript-video`, {
-    params: {
-      videoId,
-    },
-  });
+  const { data } = await api.get<Transcript>(`/transcripts/${videoId}`);
 
   return data;
 };
 
 export const addTranscript = async (transcript: TranscriptRequest) => {
-  const { data } = await api.post<Transcript[]>(`/api/transcript-video`, transcript);
+  const { data } = await api.post<Transcript[]>(`/api/transcripts-video`, transcript);
 
   return data;
 };
 
-export const updateTranscript = async (transcript: Transcript) => {
-  const { data } = await api.put<Transcript[]>(`/api/transcript-video`, transcript);
+export const updateTranscript = async (transcript: Sentence) => {
+  const { data } = await api.put<Sentence[]>(`/api/transcripts-video`, transcript);
 
   return data;
 };
 
-export const deleteTranscript = async (id: string) => {
-  const { data } = await api.delete<Transcript[]>(`/api/transcript-video`, {
+export const deleteTranscriptSentence = async (id: string) => {
+  const { data } = await api.delete(`transcript`, {
     params: {
       id,
     },
@@ -62,8 +60,14 @@ export const deleteTranscript = async (id: string) => {
   return data;
 };
 
-export const getVideos = async () => {
-  const { data } = await api.get<Video[]>(`/api/video`, {});
+export const getTranscriptTitle = async () => {
+  const { data } = await api.get<VideoTitle[]>(`/transcripts`, {});
+
+  return data.map(({ videoId, title }) => ({ videoId, title }));
+};
+
+export const generateTranscript = async (videoId: string) => {
+  const { data } = await api.post<Transcript>(`/transcripts/${videoId}`, {});
 
   return data;
 };

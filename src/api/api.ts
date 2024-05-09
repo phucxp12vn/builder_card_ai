@@ -2,8 +2,8 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 // Default config for the axios instance
 const axiosParams = {
   // Set different base URL based on the environment
-  baseURL: 'http://104.248.148.17:3000',
-  // baseURL: 'http://localhost:3000',
+  // baseURL: 'http://104.248.148.17:3000',
+  baseURL: 'http://localhost:3000',
 };
 
 // Create axios instance with default params

@@ -4,13 +4,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   Transcript,
   TranscriptYoutube,
-  Video,
+  VideoTitle,
   getTranscriptYoutube,
   getTranscript,
   addTranscript,
   updateTranscript,
-  deleteTranscript,
-  getVideos,
+  deleteTranscriptSentence,
+  getTranscriptTitle,
+  generateTranscript,
 } from '@/api/transcriptApi';
 
 const key = 'transcript';
@@ -23,7 +24,7 @@ export const useGetTranscriptYoutube = (videoId: string) => {
 };
 
 export const useGetTranscript = (videoId: string) => {
-  return useQuery<Transcript[]>({
+  return useQuery<Transcript>({
     queryKey: [`${key}_${videoId}`],
     queryFn: async () => await getTranscript(videoId),
   });
@@ -71,12 +72,12 @@ export const useUpdateTranscript = (videoId: string) => {
   });
 };
 
-export const useDeleteTranscript = (videoId: string) => {
+export const useDeleteTranscriptSentence = (videoId: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: deleteTranscript,
+    mutationFn: deleteTranscriptSentence,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`${key}_${videoId}`] });
 
@@ -91,9 +92,15 @@ export const useDeleteTranscript = (videoId: string) => {
   });
 };
 
-export const useGetVideos = () => {
-  return useQuery<Video[]>({
-    queryKey: [`video`],
-    queryFn: getVideos,
+export const useGetTranscriptTitle = () => {
+  return useQuery<VideoTitle[]>({
+    queryKey: [`video_title`],
+    queryFn: getTranscriptTitle,
+  });
+};
+
+export const useGenerateTranscript = () => {
+  return useMutation({
+    mutationFn: generateTranscript,
   });
 };

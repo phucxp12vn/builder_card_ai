@@ -1,10 +1,10 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useMemo, useContext, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@chakra-ui/react';
 import _ from 'lodash';
 import YouTube, { YouTubeProps, YouTubePlayer } from 'react-youtube';
 
-import { Transcript } from '@/api/transcriptApi';
+import { Sentence } from '@/api/transcriptApi';
 import { LearnBoxContext, LearnBoxType } from '@/contexts/LearnBoxContext';
 import { useGetTranscript } from '@/hook/useTranscript';
 
@@ -18,40 +18,55 @@ const availablePlaybackRates = [1, 0.75, 0.5];
 const LearnBox = () => {
   const { videoId } = useContext(LearnBoxContext) as LearnBoxType;
   const { data: transcript } = useGetTranscript(videoId);
+  const sentences = transcript?.sentences ?? [];
   const playerVideo = useRef<YouTubePlayer | null>(null);
-  const [transcriptIndex, setTranscriptIndex] = useState(0);
-  const [focusTranscript, setFocusTranscript] = useState<Transcript | null>(null);
+  const debounceRef = useRef<any | null>(null);
+
+  const [sentenceIndex, setSentenceIndex] = useState(0);
+  const [focusSentence, setFocusSentence] = useState<Sentence | null>(null);
   const [playRateIndex, setPlayRateIndex] = useState(0);
+  const selectedPlayRate = availablePlaybackRates[playRateIndex];
 
   useEffect(() => {
-    if (transcript && transcript.length > 0) {
-      setFocusTranscript(transcript[transcriptIndex]);
-      debounceResetVideo.cancel();
+    if (sentences.length > 0) {
+      const focusSentence = sentences[sentenceIndex];
+
+      setFocusSentence(focusSentence);
+      if (focusSentence) {
+        playerVideo.current?.seekTo(focusSentence.startTime / 1000);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transcript, transcriptIndex]);
+  }, [JSON.stringify(sentences), sentenceIndex, playRateIndex]);
 
   useEffect(() => {
     playerVideo.current = null;
-    setTranscriptIndex(0);
+    setSentenceIndex(0);
   }, [videoId]);
 
-  useEffect(() => {
-    if (focusTranscript) {
-      playerVideo.current?.seekTo(focusTranscript.startTime);
-    }
-  }, [focusTranscript]);
-
+  const offsetTime = 200;
   const duration =
-    focusTranscript !== null ? (focusTranscript.endTime - focusTranscript.startTime) * 1000 : 0;
-  const debounceResetVideo = useCallback(
-    _.debounce((startTime) => duration && playerVideo.current.seekTo(startTime), duration),
-    [duration]
-  );
+    focusSentence !== null
+      ? (focusSentence.endTime - focusSentence.startTime + offsetTime) / selectedPlayRate
+      : 0;
+
+  const resetVideo = (startTime: number) => {
+    console.log('duration', duration);
+    if (duration) {
+      playerVideo.current.seekTo(startTime);
+    }
+  };
+  debounceRef.current = useMemo(() => {
+    if (debounceRef.current) {
+      debounceRef.current.cancel();
+    }
+    return _.debounce(resetVideo, duration);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duration]);
 
   const handlePlayerReady: YouTubeProps['onReady'] = (event) => {
     playerVideo.current = event.target;
-    focusTranscript && playerVideo.current.seekTo(focusTranscript.startTime);
+    focusSentence && playerVideo.current.seekTo(focusSentence.startTime / 1000);
     playerVideo.current.playVideo();
   };
 
@@ -60,12 +75,12 @@ const LearnBox = () => {
       playerVideo.current.playVideo();
     }
 
-    if (event.data === YouTube.PlayerState.UNSTARTED && focusTranscript) {
-      playerVideo.current.seekTo(focusTranscript.startTime);
+    if (event.data === YouTube.PlayerState.UNSTARTED && focusSentence) {
+      playerVideo.current.seekTo(focusSentence.startTime / 1000);
     }
 
-    if (event.data === YouTube.PlayerState.PLAYING && focusTranscript) {
-      debounceResetVideo(focusTranscript.startTime);
+    if (event.data === YouTube.PlayerState.PLAYING && focusSentence) {
+      debounceRef.current && debounceRef.current(focusSentence.startTime / 1000);
     }
   };
 
@@ -78,13 +93,11 @@ const LearnBox = () => {
   };
 
   const handleNext = () => {
-    setTranscriptIndex((preIndex) =>
-      transcript == null || transcript?.length - 1 === preIndex ? preIndex : preIndex + 1
-    );
+    setSentenceIndex((preIndex) => (sentences?.length - 1 === preIndex ? preIndex : preIndex + 1));
   };
 
   const handlePrevious = () => {
-    setTranscriptIndex((preIndex) => (preIndex === 0 ? 0 : preIndex - 1));
+    setSentenceIndex((preIndex) => (preIndex === 0 ? 0 : preIndex - 1));
   };
 
   return (
@@ -98,7 +111,7 @@ const LearnBox = () => {
           />
           <BoxAction />
           <BoxContent
-            transcriptIndex={transcriptIndex}
+            sentenceIndex={sentenceIndex}
             playRateIndex={playRateIndex}
             onNext={handleNext}
             onPrev={handlePrevious}

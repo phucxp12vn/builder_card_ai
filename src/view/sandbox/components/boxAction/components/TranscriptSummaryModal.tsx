@@ -29,9 +29,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { Transcript } from '@/api/transcriptApi';
+import { Sentence } from '@/api/transcriptApi';
 import { LearnBoxContext, LearnBoxType } from '@/contexts/LearnBoxContext';
-import { useGetTranscript, useUpdateTranscript, useDeleteTranscript } from '@/hook/useTranscript';
+import {
+  useGetTranscript,
+  useUpdateTranscript,
+  useDeleteTranscriptSentence,
+} from '@/hook/useTranscript';
 
 function ConfirmDialog({
   isOpen,
@@ -75,12 +79,13 @@ function ConfirmDialog({
 
 const TranscriptSummary = ({ videoId }: any) => {
   const { data: transcript } = useGetTranscript(videoId);
+  const sentences = transcript?.sentences ?? [];
   const { mutate: updateTranscript } = useUpdateTranscript(videoId);
-  const { mutate: deleteTranscript } = useDeleteTranscript(videoId);
+  const { mutate: deleteTranscript } = useDeleteTranscriptSentence(videoId);
   const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
-  const handleUpdateTranscript = (newTranscript: Transcript) => {
+  const handleUpdateTranscript = (newTranscript: Sentence) => {
     updateTranscript(newTranscript);
   };
 
@@ -108,7 +113,7 @@ const TranscriptSummary = ({ videoId }: any) => {
             </Tr>
           </Thead>
           <Tbody>
-            {transcript?.map(({ id, content, startTime, endTime, notes }: Transcript) => (
+            {sentences?.map(({ id, content, startTime, endTime, notes }: Sentence) => (
               <Tr key={id}>
                 <Td>
                   <Editable
