@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 const axiosParams = {
   // Set different base URL based on the environment
   // baseURL: 'http://104.248.148.17:3000',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://tech-self-english-server.vercel.app/transcripts',
 };
 
 // Create axios instance with default params
